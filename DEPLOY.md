@@ -27,7 +27,7 @@ git push -u origin main
 3. **Create** → clone your GitHub repo:
    - URL: `https://github.com/timdfrost/isoml.git`
    - Repository path: e.g. `/home/youruser/repos/isoml`
-4. Edit `.cpanel.yml` in the repo — set `REPLACE_USERNAME` to your cPanel username and confirm `DEPLOYPATH` points at `public_html` (or your domain docroot)
+4. Edit `.cpanel.yml` in the repo — confirm `DEPLOYPATH` points at `public_html` (or your domain docroot)
 5. In Git Version Control, click **Pull or Deploy** — cPanel copies `index.html`, `css/`, `js/`, and `.htaccess` to the live site
 
 ### Option B — Manual upload
