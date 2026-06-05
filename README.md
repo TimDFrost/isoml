@@ -30,12 +30,12 @@ See **[DEPLOY.md](DEPLOY.md)** for full GitHub + cPanel instructions.
 
 ### cPanel (isoml.com)
 
-1. Push repo to GitHub (see `scripts/push-github.sh`)
+1. Push repo to GitHub
 2. In cPanel → **Git Version Control**, clone the repo
-3. Edit `.cpanel.yml` with your cPanel username and document root
+3. Confirm `.cpanel.yml` `DEPLOYPATH` matches your `public_html`
 4. Click **Pull or Deploy**
 
-Or upload `index.html`, `css/`, `js/`, and `.htaccess` to `public_html` manually.
+Or upload `index.html`, `.htaccess`, `css/`, `js/`, `pages/`, and `simulator/` to `public_html` manually.
 
 ### Netlify
 
