@@ -1,1 +1,6 @@
-
+---
+# Runs automatically when cPanel pulls this repo (Git Version Control → Pull or Deploy)
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/apj6rcmrygbr/public_html/
+    - /bin/cp -R index.html css js .htaccess $DEPLOYPATH
