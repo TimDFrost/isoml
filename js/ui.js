@@ -20,6 +20,7 @@ import { runRatingsSweep } from "./ratings.js";
 import { runAdSales, getUnsoldInventory, renderCpmTable } from "./advertising.js";
 import { evaluateSyndication, getLeaderboard, getNowPlayingContent, extractYouTubeId } from "./syndication.js";
 import { OFFICIAL_YT_CHANNEL } from "./config.js";
+import { escapeHtml, sanitizeHexColor } from "./security.js";
 
 let vuAnimationId = null;
 
@@ -279,11 +280,11 @@ function renderControlRoom() {
   list.innerHTML = stations
     .map(
       (s) => `
-    <div class="station-card ${s.id === selectedStationId ? "selected" : ""}" data-station-id="${s.id}" style="--station-color: ${s.color}">
+    <div class="station-card ${s.id === selectedStationId ? "selected" : ""}" data-station-id="${escapeHtml(s.id)}" style="--station-color: ${sanitizeHexColor(s.color)}">
       <div>
-        <div class="call-letters">${s.callLetters}</div>
-        <div class="station-meta">${s.name} · ${FORMATS[s.format]?.label || s.format}</div>
-        <div class="station-meta">HH ${s.ratings.hh || "—"} · Share ${s.ratings.share || "—"}%</div>
+        <div class="call-letters">${escapeHtml(s.callLetters)}</div>
+        <div class="station-meta">${escapeHtml(s.name)} · ${escapeHtml(FORMATS[s.format]?.label || s.format)}</div>
+        <div class="station-meta">HH ${escapeHtml(String(s.ratings.hh ?? "—"))} · Share ${escapeHtml(String(s.ratings.share ?? "—"))}%</div>
       </div>
     </div>`
     )
@@ -311,7 +312,7 @@ function renderControlRoom() {
   const sorted = [...stations].sort((a, b) => (b.ratings.hh || 0) - (a.ratings.hh || 0));
   document.getElementById("miniLeaderboard").innerHTML = sorted
     .slice(0, 5)
-    .map((s, i) => `<li><span><span class="rank">#${i + 1}</span>${s.callLetters}</span><span>${s.ratings.hh || "—"}</span></li>`)
+    .map((s, i) => `<li><span><span class="rank">#${i + 1}</span>${escapeHtml(s.callLetters)}</span><span>${escapeHtml(String(s.ratings.hh ?? "—"))}</span></li>`)
     .join("");
 }
 
@@ -321,19 +322,20 @@ function updateMasterMonitor(station) {
   const nowPlaying = document.getElementById("nowPlaying");
 
   if (!content) {
-    monitor.innerHTML = `<div class="monitor-placeholder"><div class="test-pattern"></div><p>DEAD AIR — ${station.callLetters}</p></div>`;
+    monitor.innerHTML = `<div class="monitor-placeholder"><div class="test-pattern"></div><p>DEAD AIR — ${escapeHtml(station.callLetters)}</p></div>`;
     nowPlaying.textContent = `${station.callLetters} — DEAD AIR @ ${formatHourLabel(getState().currentHour)}`;
     return;
   }
 
   if (content.type === "youtube" && content.youtubeId) {
-    monitor.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${content.youtubeId}?autoplay=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="${content.title}"></iframe>`;
+    monitor.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${escapeHtml(content.youtubeId)}?autoplay=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="${escapeHtml(content.title)}" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
   } else {
+    const color = sanitizeHexColor(station.color, "#888888");
     monitor.innerHTML = `
-      <div class="monitor-placeholder" style="background: linear-gradient(135deg, ${station.color}22, #000)">
+      <div class="monitor-placeholder" style="background: linear-gradient(135deg, ${color}22, #000)">
         <div style="font-size: 3rem; margin-bottom: 0.5rem">🎬</div>
-        <p style="color: ${station.color}; font-size: 1rem">${content.title}</p>
-        <p style="margin-top: 0.5rem; font-size: 0.65rem">${content.logline || "ORIGINAL PROGRAMMING"}</p>
+        <p style="color: ${color}; font-size: 1rem">${escapeHtml(content.title)}</p>
+        <p style="margin-top: 0.5rem; font-size: 0.65rem">${escapeHtml(content.logline || "ORIGINAL PROGRAMMING")}</p>
       </div>`;
   }
   nowPlaying.textContent = `NOW: ${content.title} · ${station.callLetters} · ${formatHourLabel(getState().currentHour)}`;
@@ -344,7 +346,7 @@ function renderSchedule() {
   const select = document.getElementById("scheduleStationSelect");
   const station = getStation(selectedStationId) || stations[0];
 
-  select.innerHTML = stations.map((s) => `<option value="${s.id}" ${s.id === station?.id ? "selected" : ""}>${s.callLetters} — ${s.name}</option>`).join("");
+  select.innerHTML = stations.map((s) => `<option value="${escapeHtml(s.id)}" ${s.id === station?.id ? "selected" : ""}>${escapeHtml(s.callLetters)} — ${escapeHtml(s.name)}</option>`).join("");
   select.onchange = () => {
     getState().selectedStationId = select.value;
     saveState();
@@ -366,9 +368,9 @@ function renderSchedule() {
   document.getElementById("contentPalette").innerHTML = filtered
     .map(
       (c) => `
-    <div class="content-chip ${c.type}" draggable="true" data-content-id="${c.id}">
-      <div class="chip-title">${c.title}</div>
-      <div class="chip-meta">${c.type.toUpperCase()} · ${c.duration}m · ${c.genre}</div>
+    <div class="content-chip ${escapeHtml(c.type)}" draggable="true" data-content-id="${escapeHtml(c.id)}">
+      <div class="chip-title">${escapeHtml(c.title)}</div>
+      <div class="chip-meta">${escapeHtml(c.type.toUpperCase())} · ${escapeHtml(String(c.duration))}m · ${escapeHtml(c.genre)}</div>
     </div>`
     )
     .join("");
@@ -386,8 +388,8 @@ function renderSchedule() {
     const prime = PRIME_HOURS.has(h) ? " prime" : "";
     const filled = c ? " filled" : "";
     gridHtml += `
-      <div class="grid-slot${prime}${filled}" data-hour="${h}" data-station-id="${station.id}">
-        ${c ? `<div class="slot-content"><div class="slot-title">${c.title}</div><div class="slot-dur">${c.duration}m</div></div>` : ""}
+      <div class="grid-slot${prime}${filled}" data-hour="${h}" data-station-id="${escapeHtml(station.id)}">
+        ${c ? `<div class="slot-content"><div class="slot-title">${escapeHtml(c.title)}</div><div class="slot-dur">${escapeHtml(String(c.duration))}m</div></div>` : ""}
       </div>`;
   }
   document.getElementById("programGrid").innerHTML = gridHtml;
@@ -447,13 +449,13 @@ function renderLibrary() {
   grid.innerHTML = content
     .map(
       (c) => `
-    <article class="content-card ${c.type}">
+    <article class="content-card ${escapeHtml(c.type)}">
       <div class="card-thumb">${c.type === "youtube" ? "▶" : "🎬"}</div>
       <div class="card-body">
-        <div class="card-title">${c.title}</div>
-        <div class="card-meta">${c.duration} min · ${c.genre} · ENG ${c.engagement}</div>
-        ${c.logline ? `<div class="card-meta" style="margin-top:0.3rem">${c.logline}</div>` : ""}
-        <span class="card-badge badge-${c.type}">${c.type === "youtube" ? "YOUTUBE" : "ORIGINAL"}</span>
+        <div class="card-title">${escapeHtml(c.title)}</div>
+        <div class="card-meta">${escapeHtml(String(c.duration))} min · ${escapeHtml(c.genre)} · ENG ${escapeHtml(String(c.engagement))}</div>
+        ${c.logline ? `<div class="card-meta" style="margin-top:0.3rem">${escapeHtml(c.logline)}</div>` : ""}
+        <span class="card-badge badge-${escapeHtml(c.type)}">${c.type === "youtube" ? "YOUTUBE" : "ORIGINAL"}</span>
       </div>
     </article>`
     )
@@ -474,13 +476,13 @@ function renderNielsen() {
       const trendIcon = s.trend === "up" ? "▲" : s.trend === "down" ? "▼" : "—";
       const trendClass = `trend-${s.trend}`;
       return `<tr>
-        <td><strong>${s.callLetters}</strong> ${s.name}</td>
-        <td>${s.ratings.hh || "—"}</td>
-        <td>${s.ratings.share || "—"}%</td>
-        <td>${s.ratings.demo1849 || "—"}</td>
-        <td>${s.ratings.demo2554 || "—"}</td>
-        <td>${s.ratings.viewers || "—"}</td>
-        <td class="${trendClass}">${trendIcon}</td>
+        <td><strong>${escapeHtml(s.callLetters)}</strong> ${escapeHtml(s.name)}</td>
+        <td>${escapeHtml(String(s.ratings.hh ?? "—"))}</td>
+        <td>${escapeHtml(String(s.ratings.share ?? "—"))}%</td>
+        <td>${escapeHtml(String(s.ratings.demo1849 ?? "—"))}</td>
+        <td>${escapeHtml(String(s.ratings.demo2554 ?? "—"))}</td>
+        <td>${escapeHtml(String(s.ratings.viewers ?? "—"))}</td>
+        <td class="${escapeHtml(trendClass)}">${trendIcon}</td>
       </tr>`;
     })
     .join("");

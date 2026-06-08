@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Pre-order Campaign Playbook | IsoML Founder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/site.css" />
+</head>
+<body>
+  <header class="site-header" id="site-header"></header>
+
+  <main class="page-main playbook-page">
+    <nav class="guide-breadcrumb">
+      <a href="../../">Home</a> / Pre-order campaign playbook
+    </nav>
+
+    <div class="playbook-layout">
+      <div id="founder-playbook"></div>
+      <aside class="playbook-sidebar">
+        <div id="checkout-intent-summary"></div>
+        <div class="panel-card">
+          <h3 class="panel-card-title">⚡ Wire Stripe pre-orders</h3>
+          <ol class="stripe-wire-steps">
+            <li>Create one Stripe product per backer tier</li>
+            <li>Generate Payment Links ($25 / $99 / $199 / $497)</li>
+            <li>Paste into <code>STRIPE.paymentLinks</code> in config.js</li>
+            <li>Pre-order buttons redirect + progress bar updates</li>
+          </ol>
+          <a class="btn btn-primary btn-sm" href="https://dashboard.stripe.com/payment-links/create" target="_blank" rel="noopener">Create payment link</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script type="module" src="../../js/site/app.js"></script>
+</body>
+</html>

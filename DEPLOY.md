@@ -1,74 +1,79 @@
-# Deploy IsoML to GitHub + cPanel (isoml.com)
+# Deploy IsoML to cPanel (isoml.com)
 
-## 1. Push to GitHub
+Static site — **no build step**. Upload or git-deploy the files below.
 
-Create a new **empty** repository on GitHub (no README), then run:
+## What goes live
 
-```bash
-cd /Users/timfrost/Projects/isoml
-
-git remote add origin https://github.com/timdfrost/isoml.git
-git push -u origin main
+```
+public_html/
+  index.html          ← comedy homepage
+  .htaccess
+  css/
+    site.css          ← main site
+    main.css          ← TV simulator
+  js/
+    site/             ← homepage modules
+    app.js, ui.js, …
+  pages/              ← guides, comedians wanted, playbook
+  simulator/          ← TV simulator at /simulator/
 ```
 
-If `origin` already exists:
+## Option A — Git deploy (recommended)
 
-```bash
-git remote set-url origin https://github.com/timdfrost/isoml.git
-git push -u origin main
-```
-
-## 2. Deploy to cPanel (isoml.com)
-
-### Option A — Git deploy (recommended)
-
-1. Log in to **cPanel** for isoml.com
-2. Open **Git Version Control**
-3. **Create** → clone your GitHub repo:
+1. Push this repo to GitHub:
+   ```bash
+   git push origin main
+   ```
+2. Log in to **cPanel** for isoml.com
+3. Open **Git Version Control**
+4. **Clone** (first time) or **Pull** (updates):
    - URL: `https://github.com/timdfrost/isoml.git`
-   - Repository path: e.g. `/home/youruser/repos/isoml`
-4. Edit `.cpanel.yml` in the repo — confirm `DEPLOYPATH` points at `public_html` (or your domain docroot)
-5. In Git Version Control, click **Pull or Deploy** — cPanel copies `index.html`, `css/`, `js/`, and `.htaccess` to the live site
+   - Path: e.g. `/home/apj6rcmrygbr/repos/isoml`
+5. Click **Pull or Deploy** — `.cpanel.yml` copies files to `public_html`
+6. Confirm `DEPLOYPATH` in `.cpanel.yml` matches your `public_html` path
 
-### Option B — Manual upload
+## Option B — File Manager / FTP
 
-Upload these to `public_html` (or isoml.com document root):
+Upload to **public_html** (enable **Show Hidden Files** for `.htaccess`):
 
-```
-index.html
-css/
-js/
-.htaccess
-```
+- `index.html`, `.htaccess`
+- Folders: `css/`, `js/`, `pages/`, `simulator/`
 
-No build step. No `node_modules`.
+Back up any old `index.html` first (rename to `index.html.backup`).
 
-### Option C — FTP
+## After deploy — verify
 
-Use FileZilla or cPanel File Manager. Upload the same files as Option B.
+| URL | Expected |
+|-----|----------|
+| https://isoml.com/ | Comedy homepage (pre-order, Fan Lounge, etc.) |
+| https://isoml.com/pages/how-to/ | Guide hub |
+| https://isoml.com/pages/comedians-wanted.html | Comedians Wanted |
+| https://isoml.com/simulator/ | TV simulator |
 
-## 3. Domain check
+Hard refresh (**Cmd+Shift+R**) if you see a cached “Coming Soon” page.
 
-- Document root should contain `index.html` at the top level
-- Visit https://isoml.com — Control Room should load
-- Hard refresh (Cmd+Shift+R) if you see a cached old page
-
-## 4. Updates
+## Updates
 
 ```bash
-# Local changes
 git add -A
-git commit -m "Your message"
-git push
-
-# cPanel: Pull or Deploy again (Option A)
+git commit -m "Describe your change"
+git push origin main
+# cPanel → Git Version Control → Pull or Deploy
 ```
 
 ## Troubleshooting
 
 | Issue | Fix |
 |-------|-----|
-| 403 / blank page | Confirm `index.html` is in document root |
-| CSS/JS 404 | Ensure `css/` and `js/` folders uploaded |
-| `.htaccess` ignored | Ask host to enable `mod_rewrite` |
-| ES modules fail | Site must be served over HTTPS or localhost |
+| 403 / blank page | `index.html` must be in document root |
+| CSS/JS 404 | Upload entire `css/` and `js/` trees (including `js/site/`) |
+| Guides 404 | Upload `pages/` folder |
+| `.htaccess` ignored | Enable `mod_rewrite` / `mod_headers` with host |
+| ES modules error | Serve over **HTTPS** (required for modules) |
+| Old Coming Soon | Clear cache; confirm new `index.html` in `public_html` |
+
+## Do not upload
+
+- `.git/`
+- `node_modules/` (none required)
+- `README.md`, `DEPLOY.md` (optional)

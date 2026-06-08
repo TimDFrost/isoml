@@ -1,6 +1,8 @@
 ---
-# Runs automatically when cPanel pulls this repo (Git Version Control → Pull or Deploy)
+# cPanel Git deploy — runs on "Pull or Deploy" in Git Version Control
+# DEPLOYPATH must match your account (public_html for isoml.com)
 deployment:
   tasks:
     - export DEPLOYPATH=/home/apj6rcmrygbr/public_html/
-    - /bin/cp -R index.html css js .htaccess $DEPLOYPATH
+    - /bin/cp index.html .htaccess $DEPLOYPATH
+    - /bin/cp -R css js pages simulator $DEPLOYPATH
