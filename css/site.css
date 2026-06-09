@@ -21,6 +21,7 @@
   --max-width: 1120px;
   --header-h: 72px;
   --transition: 0.2s ease;
+  --wallpaper: url("../images/micwallpaper.png");
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,15 +39,51 @@ body {
   min-height: 100vh;
 }
 
+/* Full-page mic mosaic wallpaper — fixed behind all content */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
+  z-index: -2;
+  background: var(--wallpaper) center 38% / cover no-repeat;
+  opacity: 0.52;
+}
+
+/* Dark scrim + brand glows for readable text over the wallpaper */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
   background:
+    linear-gradient(
+      180deg,
+      rgba(15, 14, 12, 0.58) 0%,
+      rgba(15, 14, 12, 0.76) 50%,
+      rgba(15, 14, 12, 0.88) 100%
+    ),
     radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245, 200, 66, 0.08), transparent),
     radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 41, 66, 0.06), transparent);
   z-index: -1;
+}
+
+@media (max-width: 768px) {
+  body::before {
+    opacity: 0.3;
+    background-size: 160% auto;
+    background-position: center 32%;
+  }
+
+  body::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(15, 14, 12, 0.82) 0%,
+        rgba(15, 14, 12, 0.9) 100%
+      ),
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245, 200, 66, 0.06), transparent);
+  }
 }
 
 img { max-width: 100%; height: auto; display: block; }

@@ -5,4 +5,4 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/apj6rcmrygbr/public_html/
     - /bin/cp index.html .htaccess $DEPLOYPATH
-    - /bin/cp -R css js pages simulator $DEPLOYPATH
+    - /bin/cp -R css js pages simulator images $DEPLOYPATH
