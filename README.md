@@ -1,96 +1,62 @@
-# IsoML — Fantasy Television Network Simulator
+# ISOML — In Search of Modern Law
 
-Build your own cable network: launch stations, schedule YouTube and original programming, earn Nielsen-style ratings, sell advertising, and compete for syndication slots on the official [Iso Media Legends](https://www.youtube.com/@IsoMediaLegends) YouTube Live channel.
+A production-ready marketing website for **ISOML**, a legal intelligence platform by Oh Ya Inc.
 
 **Live site:** [isoml.com](https://isoml.com)
 
-## Features
+## Overview
 
-- **Control Room** — Master monitor with YouTube embeds, VU meters, station rack
-- **Program Grid** — Drag content into a 24-hour schedule with prime-time highlighting
-- **Content Vault** — Import YouTube videos or create original programs
-- **Nielsen Desk** — Overnight ratings book, demo heatmap, 7-day trend chart
-- **Ad Sales** — Daypart CPM rate card, revenue from ratings × inventory
-- **Syndication** — Compete for official [@IsoMediaLegends](https://www.youtube.com/@IsoMediaLegends) YouTube Live blocks
+ISOML is a justice data engine that helps legal professionals organize discovery, map evidence to statutory elements, research precedent, and analyze sentencing fairness — with human judgment always at the center.
 
-## Quick Start
+## Tech Stack
 
-No build step required. Serve the folder with any static host:
+- **Next.js 15** (App Router)
+- **TypeScript**
+- **Tailwind CSS v4**
+- **Framer Motion**
+- **shadcn/ui** (Radix primitives)
+- **Stripe Checkout**
+- **Vercel** deployment ready
+
+## Getting Started
 
 ```bash
-cd Projects/isoml
-python3 -m http.server 8080
+npm install
+cp .env.example .env.local
+npm run dev
 ```
 
-Open [http://localhost:8080](http://localhost:8080)
+Open [http://localhost:3000](http://localhost:3000)
 
-## Deploy to isoml.com
+## Environment Variables
 
-See **[DEPLOY.md](DEPLOY.md)** for full GitHub + cPanel instructions.
+| Variable | Description |
+|----------|-------------|
+| `STRIPE_SECRET_KEY` | Stripe secret key (replace placeholder) |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
+| `NEXT_PUBLIC_BASE_URL` | Site URL for checkout redirects |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics ID (optional) |
 
-### cPanel (isoml.com)
-
-1. Push repo to GitHub
-2. In cPanel → **Git Version Control**, clone the repo
-3. Confirm `.cpanel.yml` `DEPLOYPATH` matches your `public_html`
-4. Click **Pull or Deploy**
-
-Or upload `index.html`, `.htaccess`, `css/`, `js/`, `pages/`, and `simulator/` to `public_html` manually.
-
-### Netlify
-
-1. Connect this repo or drag-drop the `isoml` folder
-2. Build command: *(none)*
-3. Publish directory: `/` (repo root)
-4. Add custom domain `isoml.com` in Netlify DNS
-
-### Vercel
+## Deploy to Vercel
 
 ```bash
 vercel --prod
 ```
 
-`vercel.json` is included for static deployment.
+Set environment variables in the Vercel dashboard. The site is configured for automatic Next.js deployment.
 
-### Cloudflare Pages / GitHub Pages
+## Features
 
-Upload the project root as the site root. All assets are relative paths.
-
-## How to Play
-
-1. **Launch a station** (or use the starter WISO — IsoML Prime)
-2. **Add content** — YouTube URLs or original shows in Content Vault
-3. **Schedule** — Drag chips onto the Program Grid (prime time = 8–11 PM)
-4. **Run Ratings Sweep** — Calculates HH rating, share, demos, ad revenue, syndication
-5. **Advance time** — Simulate broadcast hours and days
-6. **Win syndication** — Hit minimum HH thresholds for [@IsoMediaLegends](https://www.youtube.com/@IsoMediaLegends) YouTube Live slots
-
-Progress saves automatically in `localStorage`.
-
-## Tech Stack
-
-- Vanilla HTML / CSS / JavaScript (ES modules)
-- No bundler or Node.js required for development or production
-- Canvas chart for Nielsen trends
-- YouTube nocookie embeds for preview
-
-## Project Structure
-
-```
-isoml/
-├── index.html
-├── css/main.css
-├── js/
-│   ├── app.js
-│   ├── state.js
-│   ├── ratings.js
-│   ├── advertising.js
-│   ├── syndication.js
-│   └── ui.js
-├── vercel.json
-└── netlify.toml
-```
+- Dark mode by default with navy/olive brand palette
+- Animated knowledge graph hero visualization
+- Interactive demo simulation
+- Justice Data Engine dashboard mockups
+- Founding Design Partner program with Stripe Checkout
+- Pitch deck preview
+- SEO metadata & Open Graph images
+- Accessibility-compliant markup
+- Responsive design
 
 ## License
 
-MIT — IsoML Network
+© Oh Ya Inc. All rights reserved.
