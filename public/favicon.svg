@@ -1,4 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#0B1F33"/>
-  <text x="16" y="22" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#6b8a3a" text-anchor="middle">I</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="16" fill="url(#g)"/>
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6B5CE7"/>
+      <stop offset="1" stop-color="#2B7FFF"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="22" r="8" fill="white" opacity="0.95"/>
+  <rect x="20" y="32" width="24" height="18" rx="8" fill="white" opacity="0.95"/>
+  <circle cx="26" cy="40" r="2.5" fill="#2B7FFF"/>
+  <circle cx="38" cy="40" r="2.5" fill="#6B5CE7"/>
 </svg>

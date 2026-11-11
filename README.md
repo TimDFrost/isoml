@@ -1,24 +1,17 @@
-# ISOML — In Search of Modern Law
+# isoML — in search of Machine Learning
 
-A production-ready marketing website for **ISOML**, a legal intelligence platform by Oh Ya Inc.
+Premium website and private studio for **Reachy Mini × You** at [isoml.com](https://isoml.com).
 
-**Live site:** [isoml.com](https://isoml.com)
+Customers collect stories, writing, preferences, and selected files into an evolving AI twin, review what the system learns, test it in conversation, and eventually connect an approved personality to Reachy Mini.
 
-## Overview
+## Stack
 
-ISOML is a justice data engine that helps legal professionals organize discovery, map evidence to statutory elements, research precedent, and analyze sentencing fairness — with human judgment always at the center.
+- Next.js 15 (App Router) + TypeScript
+- Tailwind CSS v4
+- Framer Motion (available) + CSS motion with reduced-motion support
+- Radix / shadcn-style UI primitives
 
-## Tech Stack
-
-- **Next.js 15** (App Router)
-- **TypeScript**
-- **Tailwind CSS v4**
-- **Framer Motion**
-- **shadcn/ui** (Radix primitives)
-- **Stripe Checkout**
-- **Vercel** deployment ready
-
-## Getting Started
+## Quick start
 
 ```bash
 npm install
@@ -26,36 +19,38 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
-
-## Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| `STRIPE_SECRET_KEY` | Stripe secret key (replace placeholder) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
-| `NEXT_PUBLIC_BASE_URL` | Site URL for checkout redirects |
-| `NEXT_PUBLIC_GA_ID` | Google Analytics ID (optional) |
-
-## Deploy to Vercel
+Open [http://localhost:3000](http://localhost:3000).
 
 ```bash
-vercel --prod
+npm run lint
+npm run build
 ```
 
-Set environment variables in the Vercel dashboard. The site is configured for automatic Next.js deployment.
+## Routes
 
-## Features
+| Route | Purpose |
+| --- | --- |
+| `/` | Homepage |
+| `/demo` | Free demo (no account) |
+| `/studio/*` | Private studio foundation |
+| `/schedule` | Booking link or honest unavailable |
+| `/early-access` | Request early access |
+| `/privacy`, `/terms` | Policy pages |
 
-- Dark mode by default with navy/olive brand palette
-- Animated knowledge graph hero visualization
-- Interactive demo simulation
-- Justice Data Engine dashboard mockups
-- Founding Design Partner program with Stripe Checkout
-- Pitch deck preview
-- SEO metadata & Open Graph images
-- Accessibility-compliant markup
-- Responsive design
+## Environment
+
+See `.env.example`. Without LLM keys, chat/demo use labeled synthetic fallbacks. Without `REACHY_MINI_ENDPOINT`, Reachy stays unavailable/disconnected — never faked as connected. Without `NEXT_PUBLIC_BOOKING_URL`, scheduling shows unavailable.
+
+## Product notes
+
+- Footer exact: `isoML, a subsidiary of Oh Ya Inc, est. 2024`
+- Hardware purchase links to Pollen Robotics; no reseller/partnership implication
+- Studio drafts persist in `localStorage` until a backend is configured
+- Demo session memory uses `sessionStorage` with clear reset
+
+## Deploy
+
+Configured for Vercel (`vercel.json`). Set env vars in the host dashboard, then deploy the production branch to isoml.com.
 
 ## License
 

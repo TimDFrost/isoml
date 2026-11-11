@@ -1,107 +1,107 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "#mission", label: "Mission" },
-  { href: "#products", label: "Products" },
-  { href: "#demo", label: "Demo" },
-  { href: "#justice-engine", label: "Data Engine" },
-  { href: "#partners", label: "Partners" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/demo", label: "Free Demo" },
+  { href: "/studio", label: "Studio" },
+  { href: "/#journey", label: "Journey" },
+  { href: "/#reachy", label: "Reachy Mini × You" },
+  { href: "/schedule", label: "Schedule" },
 ];
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const hideChrome = pathname.startsWith("/studio");
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  if (hideChrome) return null;
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 z-50 w-full transition-all duration-300",
-        scrolled
-          ? "border-b border-white/10 bg-navy/90 backdrop-blur-xl"
-          : "bg-transparent"
-      )}
-    >
-      <nav
-        className="container-max flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8"
-        aria-label="Main navigation"
-      >
+    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--offwhite)_88%,transparent)] backdrop-blur-md">
+      <div className="container-page flex h-16 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-olive/20 text-sm font-bold text-olive-light">
-            I
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold tracking-wide">ISOML</span>
-            <span className="text-[10px] text-white/50">In Search of Modern Law</span>
-          </div>
+          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--violet),var(--electric))] text-sm font-bold text-white">
+            i
+          </span>
+          <span className="font-display text-xl text-[var(--ink)]">isoML</span>
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm text-white/60 transition-colors hover:text-white"
+              className={cn(
+                "text-sm transition-colors",
+                pathname === link.href || pathname.startsWith(`${link.href}/`)
+                  ? "font-semibold text-[var(--violet-deep)]"
+                  : "text-[var(--ink-soft)] hover:text-[var(--violet)]",
+              )}
             >
               {link.label}
             </Link>
           ))}
-        </div>
+        </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="#partners">Join Beta</Link>
-          </Button>
-          <Button size="sm" asChild>
-            <Link href="#partners">Request Demo</Link>
-          </Button>
+          <Link href="/demo" className="btn btn-secondary px-4 py-2 text-sm">
+            Try the Free Demo
+          </Link>
+          <Link href="/studio" className="btn btn-primary px-4 py-2 text-sm">
+            Build My Twin
+          </Link>
         </div>
 
         <button
-          className="md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
+          type="button"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] md:hidden"
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+          aria-label={open ? "Close menu" : "Open menu"}
+          onClick={() => setOpen((value) => !value)}
         >
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
-      </nav>
+      </div>
 
-      {mobileOpen && (
-        <div className="border-t border-white/10 bg-navy/95 backdrop-blur-xl md:hidden">
-          <div className="flex flex-col gap-1 p-4">
+      {open ? (
+        <div
+          id="mobile-nav"
+          className="border-t border-[var(--line)] bg-[var(--surface)] px-4 py-4 md:hidden"
+        >
+          <nav className="flex flex-col gap-3" aria-label="Mobile">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="rounded-lg px-4 py-3 text-sm text-white/70 hover:bg-white/5"
-                onClick={() => setMobileOpen(false)}
+                className="py-1 text-[var(--ink-soft)]"
+                onClick={() => setOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-4">
-              <Button asChild>
-                <Link href="#partners" onClick={() => setMobileOpen(false)}>
-                  Request Demo
-                </Link>
-              </Button>
-            </div>
-          </div>
+            <Link
+              href="/demo"
+              className="btn btn-secondary mt-2"
+              onClick={() => setOpen(false)}
+            >
+              Try the Free Demo
+            </Link>
+            <Link
+              href="/studio"
+              className="btn btn-primary"
+              onClick={() => setOpen(false)}
+            >
+              Build My Twin
+            </Link>
+          </nav>
         </div>
-      )}
+      ) : null}
     </header>
   );
 }

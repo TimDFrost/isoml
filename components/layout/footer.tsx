@@ -1,138 +1,67 @@
-import Link from "next/link";
-import { Separator } from "@/components/ui/separator";
+"use client";
 
-const footerLinks = {
-  product: [
-    { href: "#products", label: "Products" },
-    { href: "#demo", label: "Demo" },
-    { href: "#justice-engine", label: "Data Engine" },
-    { href: "#partners", label: "Founding Partners" },
-  ],
-  company: [
-    { href: "#founder", label: "Founder" },
-    { href: "#pitch-deck", label: "Pitch Deck" },
-    { href: "#faq", label: "FAQ" },
-    { href: "mailto:contact@isoml.com", label: "Contact" },
-  ],
-  legal: [
-    { href: "/terms", label: "Terms" },
-    { href: "/privacy", label: "Privacy" },
-  ],
-};
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { REACHY_BUY_URL } from "@/lib/config";
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/studio")) return null;
+
   return (
-    <footer className="border-t border-white/10 bg-navy-dark" role="contentinfo">
-      <div className="container-max section-padding !py-16">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-1">
-            <div className="mb-4 flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-olive/20 text-lg font-bold text-olive-light">
-                I
-              </div>
-              <div>
-                <p className="font-semibold">ISOML</p>
-                <p className="text-xs text-white/50">In Search of Modern Law</p>
-              </div>
-            </div>
-            <p className="text-sm text-white/50">
-              A product of Oh Ya Inc.
-            </p>
-            <p className="mt-4 text-sm text-white/40">
-              AI-powered legal intelligence for discovery, precedent, sentencing transparency, and fairness analysis.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-white/80">Product</h3>
-            <ul className="space-y-2">
-              {footerLinks.product.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/50 transition-colors hover:text-olive-light"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-white/80">Company</h3>
-            <ul className="space-y-2">
-              {footerLinks.company.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-white/50 transition-colors hover:text-olive-light"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-white/50 transition-colors hover:text-olive-light"
-                >
-                  LinkedIn
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-semibold text-white/80">Get Started</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="#partners"
-                  className="text-sm text-olive-light transition-colors hover:text-white"
-                >
-                  Request Demo
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#partners"
-                  className="text-sm text-white/50 transition-colors hover:text-olive-light"
-                >
-                  Join Beta
-                </Link>
-              </li>
-              <li>
-                <a
-                  href="mailto:contact@isoml.com"
-                  className="text-sm text-white/50 transition-colors hover:text-olive-light"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <Separator className="my-8" />
-
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} Oh Ya Inc. All rights reserved.
+    <footer className="border-t border-[var(--line)] bg-[color-mix(in_srgb,var(--offwhite-deep)_80%,white)]">
+      <div className="container-page grid gap-8 py-12 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div>
+          <p className="font-display text-2xl text-[var(--ink)]">isoML</p>
+          <p className="mt-2 max-w-md text-sm text-[var(--ink-muted)]">
+            in search of Machine Learning — collect, understand, and configure a
+            digital twin that can power Reachy Mini.
           </p>
-          <div className="flex gap-6">
-            {footerLinks.legal.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-xs text-white/40 transition-colors hover:text-white/60"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-[var(--ink)]">Explore</p>
+          <ul className="mt-3 space-y-2 text-sm text-[var(--ink-muted)]">
+            <li>
+              <Link href="/demo">Free Demo</Link>
+            </li>
+            <li>
+              <Link href="/studio">Private Studio</Link>
+            </li>
+            <li>
+              <Link href="/schedule">Schedule a Demo</Link>
+            </li>
+            <li>
+              <Link href="/early-access">Request early access</Link>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-[var(--ink)]">Hardware</p>
+          <ul className="mt-3 space-y-2 text-sm text-[var(--ink-muted)]">
+            <li>
+              <a href={REACHY_BUY_URL} target="_blank" rel="noopener noreferrer">
+                Buy Reachy Mini
+              </a>
+            </li>
+            <li>
+              <Link href="/privacy">Privacy</Link>
+            </li>
+            <li>
+              <Link href="/terms">Terms</Link>
+            </li>
+          </ul>
+          <p className="mt-4 text-xs text-[var(--ink-muted)]">
+            Hardware is sold separately by Pollen Robotics. isoML is not an
+            official reseller or partner program.
+          </p>
+        </div>
+      </div>
+      <div className="border-t border-[var(--line)]">
+        <div className="container-page flex flex-col gap-2 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-[var(--ink-soft)]">
+            isoML, a subsidiary of Oh Ya Inc, est. 2024
+          </p>
+          <p className="text-xs text-[var(--ink-muted)]">isoml.com</p>
         </div>
       </div>
     </footer>
