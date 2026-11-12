@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { IsoMlWordmark } from "@/components/brand/IsoMlWordmark";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -22,13 +23,10 @@ export function Navbar() {
   if (hideChrome) return null;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--offwhite)_88%,transparent)] backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--navy)_88%,transparent)] backdrop-blur-md">
       <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[linear-gradient(135deg,var(--violet),var(--electric))] text-sm font-bold text-white">
-            i
-          </span>
-          <span className="font-display text-xl text-[var(--ink)]">isoML</span>
+        <Link href="/" className="flex items-center" aria-label="isoML home">
+          <IsoMlWordmark size="sm" />
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
@@ -39,8 +37,8 @@ export function Navbar() {
               className={cn(
                 "text-sm transition-colors",
                 pathname === link.href || pathname.startsWith(`${link.href}/`)
-                  ? "font-semibold text-[var(--violet-deep)]"
-                  : "text-[var(--ink-soft)] hover:text-[var(--violet)]",
+                  ? "font-semibold text-[var(--chrome)]"
+                  : "text-[var(--ink-soft)] hover:text-[var(--jewel-teal)]",
               )}
             >
               {link.label}
@@ -59,7 +57,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] text-[var(--chrome)] md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}

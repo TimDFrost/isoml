@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Figtree, Syne } from "next/font/google";
+import { Figtree, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { GoogleAnalytics } from "@/components/analytics";
 
-const syne = Syne({
+const space = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-syne",
+  variable: "--font-space",
   display: "swap",
 });
 
@@ -78,7 +78,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${syne.variable} ${figtree.variable} site-shell antialiased`}>
+      <body className={`${space.variable} ${figtree.variable} site-shell antialiased`}>
         <GoogleAnalytics />
         <Navbar />
         <main className="site-main">{children}</main>

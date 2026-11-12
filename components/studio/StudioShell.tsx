@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { IsoMlWordmark } from "@/components/brand/IsoMlWordmark";
 import { StudioProvider, useStudio } from "@/components/studio/StudioProvider";
 import { cn } from "@/lib/utils";
 
@@ -24,12 +25,12 @@ function StudioChrome({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[var(--offwhite)]">
-      <div className="border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--surface)_90%,transparent)] backdrop-blur-md">
+    <div className="min-h-screen bg-[var(--navy)]">
+      <div className="border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--navy)_90%,transparent)] backdrop-blur-md">
         <div className="mx-auto flex w-[min(1200px,calc(100%-1.5rem))] items-center justify-between gap-3 py-4">
           <div className="flex items-center gap-3">
-            <Link href="/" className="font-display text-xl text-[var(--ink)]">
-              isoML
+            <Link href="/" aria-label="isoML home">
+              <IsoMlWordmark size="sm" />
             </Link>
             <span className="badge-soft">Private studio preview</span>
           </div>
@@ -73,7 +74,7 @@ function StudioChrome({ children }: { children: React.ReactNode }) {
                   className={cn(
                     "rounded-[var(--radius-md)] px-3 py-2 text-sm transition",
                     active
-                      ? "bg-[var(--violet-soft)] font-semibold text-[var(--violet-deep)]"
+                      ? "bg-[var(--accent-soft)] font-semibold text-[var(--jewel-teal)]"
                       : "text-[var(--ink-soft)] hover:bg-[var(--surface-soft)]",
                   )}
                 >

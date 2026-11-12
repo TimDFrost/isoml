@@ -4,19 +4,19 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--electric)]/40 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--jewel-teal)]/40 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-[linear-gradient(135deg,var(--violet),var(--electric))] text-white shadow-lg shadow-[rgba(43,127,255,0.22)] hover:brightness-105",
+          "bg-[linear-gradient(135deg,#f4f7fb,#aeb9cc_45%,#7f90ab)] text-[#0a1020] shadow-lg shadow-black/30 hover:brightness-105",
         secondary:
-          "border border-[var(--line)] bg-transparent text-[var(--ink)] hover:border-[var(--violet)] hover:text-[var(--violet-deep)]",
+          "border border-[var(--line)] bg-transparent text-[var(--chrome)] hover:border-[var(--jewel-teal)] hover:text-[var(--jewel-teal)]",
         outline:
-          "border border-[var(--violet)]/40 text-[var(--violet-deep)] hover:bg-[var(--violet-soft)]",
+          "border border-[var(--jewel-teal)]/40 text-[var(--jewel-teal)] hover:bg-[var(--accent-soft)]",
         ghost:
-          "text-[var(--ink-soft)] hover:bg-[var(--violet-soft)] hover:text-[var(--violet-deep)]",
-        link: "text-[var(--violet)] underline-offset-4 hover:underline",
+          "text-[var(--ink-soft)] hover:bg-[var(--accent-soft)] hover:text-[var(--chrome)]",
+        link: "text-[var(--jewel-teal)] underline-offset-4 hover:underline",
       },
       size: {
         default: "h-11 px-6 py-2",

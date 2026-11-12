@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IsoMlWordmark } from "@/components/brand/IsoMlWordmark";
 import { TeachTwinVisual } from "@/components/brand/TeachTwinVisual";
 import { InteractiveTeachPreview } from "@/components/home/InteractiveTeachPreview";
 import { REACHY_BUY_URL } from "@/lib/config";
@@ -65,11 +66,16 @@ const faqs = [
 export default function HomePage() {
   return (
     <>
-      <section className="section-tight">
-        <div className="container-page grid items-center gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+      <section className="section-tight relative overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 jewel-dots opacity-40"
+        />
+        <div className="container-page relative grid items-center gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
           <div className="animate-fade-rise space-y-6">
-            <p className="eyebrow">isoML · Reachy Mini × You</p>
-            <h1 className="font-display text-4xl leading-[1.05] text-[var(--ink)] sm:text-5xl lg:text-6xl">
+            <IsoMlWordmark size="hero" priority />
+            <p className="eyebrow">Reachy Mini × You</p>
+            <h1 className="font-display text-3xl leading-[1.08] text-[var(--chrome)] sm:text-4xl lg:text-5xl">
               An AI twin. A robot personality. Unmistakably you.
             </h1>
             <p className="max-w-xl text-lg text-[var(--ink-soft)]">
