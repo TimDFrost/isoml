@@ -7,18 +7,23 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-olive/30 bg-olive/20 text-olive-light",
-        secondary: "border-white/10 bg-white/5 text-white/70",
-        success: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
-        warning: "border-amber-500/30 bg-amber-500/10 text-amber-400",
-        danger: "border-red-500/30 bg-red-500/10 text-red-400",
-        outline: "border-white/20 text-white/80",
+        default:
+          "border-[color-mix(in_srgb,var(--violet)_30%,transparent)] bg-[var(--violet-soft)] text-[var(--violet-deep)]",
+        secondary:
+          "border-[var(--line)] bg-[var(--surface-soft)] text-[var(--ink-soft)]",
+        success:
+          "border-[color-mix(in_srgb,var(--success)_30%,transparent)] bg-[color-mix(in_srgb,var(--success)_12%,white)] text-[var(--success)]",
+        warning:
+          "border-[color-mix(in_srgb,var(--warning)_30%,transparent)] bg-[color-mix(in_srgb,var(--warning)_12%,white)] text-[var(--warning)]",
+        danger:
+          "border-[color-mix(in_srgb,var(--danger)_30%,transparent)] bg-[color-mix(in_srgb,var(--danger)_12%,white)] text-[var(--danger)]",
+        outline: "border-[var(--line)] text-[var(--ink-soft)]",
       },
     },
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 export interface BadgeProps
