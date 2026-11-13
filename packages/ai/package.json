@@ -9,15 +9,21 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./conversation": {
+      "types": "./dist/conversation.d.ts",
+      "import": "./dist/conversation.js"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "test": "tsx --test src/emotions.test.ts src/conversation.test.ts"
   },
   "dependencies": {
     "@ohya/identity-schema": "*"
   },
   "devDependencies": {
+    "tsx": "^4.20.5",
     "typescript": "^5.9.3"
   }
 }

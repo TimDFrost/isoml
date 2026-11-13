@@ -11,7 +11,7 @@
     "build": "npm run build -w @ohya/shared && npm run build -w @ohya/identity-schema && npm run build -w @ohya/billing && npm run build -w @ohya/ai && npm run build -w @ohya/isoml && npm run build -w @ohya/yables",
     "build:isoml": "npm run build -w @ohya/isoml",
     "build:yables": "npm run build -w @ohya/yables",
-    "test": "npm run test -w @ohya/billing && npm run test -w @ohya/identity-schema",
+    "test": "npm run test -w @ohya/billing && npm run test -w @ohya/identity-schema && npm run test -w @ohya/ai && npm run test -w @ohya/yables --if-present",
     "lint": "npm run lint -w @ohya/isoml --if-present && npm run lint -w @ohya/yables --if-present"
   },
   "engines": {

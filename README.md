@@ -32,13 +32,20 @@ Copy:
 - `apps/isoml/.env.example`
 - `apps/yables/.env.example`
 
+## Dr. Yables
+
+Architecture: [`docs/dr-yables-architecture.md`](docs/dr-yables-architecture.md)  
+Reachy Mini adapter notes: [`docs/reachy-mini-adapter.md`](docs/reachy-mini-adapter.md)
+
+Interview route: `/interview/[1-12]`. Without `HF_TOKEN` or `OPENAI_API_KEY`, the API uses a local demonstration reply.
+
 ## Tests
 
 ```bash
 npm test
 ```
 
-Paywall/transfer token tests live in `@ohya/billing`.
+Paywall/transfer token tests live in `@ohya/billing`. Avatar/conversation/journey tests live in `@ohya/ai` and `@ohya/yables`.
 
 ## Deploy notes
 

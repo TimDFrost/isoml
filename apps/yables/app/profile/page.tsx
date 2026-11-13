@@ -3,7 +3,13 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { synthesizeProfileDraft } from "@ohya/ai";
-import { loadJourney, saveJourney, type JourneyState } from "@/lib/journey-storage";
+import { ProfileReview } from "@/components/interview/ProfileReview";
+import {
+  approvedNotes,
+  loadJourney,
+  saveJourney,
+  type JourneyState,
+} from "@/lib/journey-storage";
 
 export default function ProfilePage() {
   const [journey, setJourney] = useState<JourneyState | null>(null);
@@ -20,7 +26,7 @@ export default function ProfilePage() {
   }
 
   const completed = journey.sessions.filter((s) => s.status === "completed").map((s) => s.sessionId);
-  const notes = journey.sessions.flatMap((s) => s.notes);
+  const notes = approvedNotes(journey);
   const allDone = completed.length >= 12;
 
   const rebuild = () => {
@@ -29,6 +35,12 @@ export default function ProfilePage() {
       notes,
       completedSessions: completed,
     });
+    // Mark synthesized memories as approved when they came from approved candidates.
+    profile.memories = profile.memories.map((memory) => ({
+      ...memory,
+      approved: true,
+      confidenceNote: "Customer-approved memory from Yables review.",
+    }));
     const next = saveJourney({
       ...journey,
       displayName: name || journey.displayName,
@@ -64,15 +76,14 @@ export default function ProfilePage() {
         notes,
         completedSessions: completed,
       });
-    // Lightweight printable text stand-in until a PDF renderer is wired.
     const text = [
       "Yables — Your Profile (free export)",
       `Name: ${profile.displayName}`,
       "",
       profile.summary,
       "",
-      "Memories (review/approve on dashboard):",
-      ...profile.memories.map((m) => `- [${m.kind}] ${m.text}`),
+      "Approved memories:",
+      ...profile.memories.filter((m) => m.approved).map((m) => `- [${m.kind}] ${m.text}`),
       "",
       "This download is free. Commercial twin activation happens on isoML after payment + consent.",
     ].join("\n");
@@ -106,6 +117,15 @@ export default function ProfilePage() {
           />
         </label>
 
+        <div className="panel space-y-3 p-6">
+          <h2 className="font-display text-2xl">Memory confirmation</h2>
+          <p className="text-sm text-[var(--ink-muted)]">
+            Only approved items feed the profile draft and future session callbacks. Rejected
+            items stay private to this browser and are not treated as personality facts.
+          </p>
+          <ProfileReview journey={journey} onChange={setJourney} />
+        </div>
+
         <div className="flex flex-wrap gap-3">
           <button type="button" className="btn btn-primary" onClick={rebuild}>
             Refresh profile draft
@@ -121,7 +141,7 @@ export default function ProfilePage() {
         <div className="panel space-y-3 p-6">
           <h2 className="font-display text-2xl">Summary</h2>
           <p className="text-[var(--charcoal-soft)]">
-            {journey.profile?.summary || "Complete sessions and refresh to generate a draft."}
+            {journey.profile?.summary || "Approve memories and refresh to generate a draft."}
           </p>
           <p className="text-sm text-[var(--ink-muted)]">
             Completed sessions: {completed.join(", ") || "none yet"}
@@ -129,7 +149,7 @@ export default function ProfilePage() {
           <ul className="space-y-2 text-sm text-[var(--charcoal-soft)]">
             {(journey.profile?.memories || []).map((memory) => (
               <li key={memory.id}>
-                <strong>{memory.kind}:</strong> {memory.text}
+                <strong>{memory.approved ? "approved" : "draft"}:</strong> {memory.text}
               </li>
             ))}
           </ul>
@@ -141,7 +161,8 @@ export default function ProfilePage() {
               Now, would you like to meet yourself?
             </h2>
             <p className="text-[var(--charcoal-soft)]">
-              Your personality is ready. Meet your twin on isoML.
+              Your personality is ready. Meet your twin on isoML — transfer requires auth,
+              payment entitlement, and explicit consent.
             </p>
             <Link href="/bring-yourself-to-life" className="btn btn-primary">
               Bring Yourself to Life

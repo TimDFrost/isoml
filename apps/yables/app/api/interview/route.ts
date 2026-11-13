@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import { YABLES_SESSIONS } from "@ohya/identity-schema";
-import { buildSessionSystemPrompt, localInterviewReply } from "@ohya/ai";
+import { runInterviewTurn } from "@ohya/ai/conversation";
+
+type Body = {
+  sessionId?: number;
+  message?: string;
+  turn?: number;
+  history?: Array<{ role: "user" | "assistant"; content: string }>;
+  approvedNotes?: string[];
+};
 
 export async function POST(request: Request) {
-  let body: { sessionId?: number; message?: string; turn?: number };
+  let body: Body;
   try {
-    body = (await request.json()) as typeof body;
+    body = (await request.json()) as Body;
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
@@ -16,54 +24,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "sessionId and message required" }, { status: 400 });
   }
 
-  const apiKey = process.env.OPENAI_API_KEY || process.env.LLM_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json({
-      ...localInterviewReply({
-        session,
-        userMessage: message,
-        turn: body.turn ?? 0,
-      }),
-      mode: "local-fallback",
-    });
+  // Basic abuse guard — interview stays free, but unbounded spam is not.
+  if (message.length > 4000) {
+    return NextResponse.json({ error: "Message too long." }, { status: 413 });
   }
 
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: process.env.LLM_MODEL || "gpt-4o-mini",
-        temperature: 0.7,
-        messages: [
-          { role: "system", content: buildSessionSystemPrompt(session) },
-          { role: "user", content: message },
-        ],
-      }),
+    const result = await runInterviewTurn({
+      session,
+      message,
+      turn: body.turn ?? 0,
+      history: body.history,
+      approvedNotes: body.approvedNotes,
     });
-    if (!response.ok) {
-      return NextResponse.json({
-        ...localInterviewReply({ session, userMessage: message, turn: body.turn ?? 0 }),
-        mode: "local-fallback",
-      });
-    }
-    const data = (await response.json()) as {
-      choices?: Array<{ message?: { content?: string } }>;
-    };
-    const reply = data.choices?.[0]?.message?.content?.trim();
-    return NextResponse.json({
-      reply: reply || localInterviewReply({ session, userMessage: message, turn: 0 }).reply,
-      emotion: "speaking",
-      candidateInsight: message.slice(0, 160),
-      mode: "llm",
-    });
+    return NextResponse.json(result);
   } catch {
-    return NextResponse.json({
-      ...localInterviewReply({ session, userMessage: message, turn: body.turn ?? 0 }),
-      mode: "local-fallback",
-    });
+    return NextResponse.json(
+      { error: "Interview bridge failed." },
+      { status: 502 },
+    );
   }
 }
