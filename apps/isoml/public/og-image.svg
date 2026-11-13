@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#060914"/>
+  <circle cx="980" cy="120" r="220" fill="#2DE2E6" opacity="0.12"/>
+  <circle cx="180" cy="520" r="200" fill="#FF4FD8" opacity="0.1"/>
+  <text x="80" y="200" font-family="Arial Black, Arial, sans-serif" font-size="88" fill="#E8EEF7">isoML</text>
+  <text x="80" y="300" font-family="Georgia, serif" font-size="44" fill="#C3CCD9">An AI twin. A robot personality.</text>
+  <text x="80" y="365" font-family="Georgia, serif" font-size="44" fill="#C3CCD9">Unmistakably you.</text>
+  <text x="80" y="450" font-family="Arial, sans-serif" font-size="28" fill="#8B96AB">Reachy Mini × You · isoml.com</text>
+</svg>

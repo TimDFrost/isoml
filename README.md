@@ -1,62 +1,52 @@
-# ISOML — In Search of Modern Law
+# Oh Ya Inc. — Yables × isoML
 
-A production-ready marketing website for **ISOML**, a legal intelligence platform by Oh Ya Inc.
+Monorepo for two complementary products:
 
-**Live site:** [isoml.com](https://isoml.com)
+| App | Domain | Role |
+| --- | --- | --- |
+| `@ohya/yables` | yables.com | Free personality discovery (12 sessions, Dr. Yables, free profile export) |
+| `@ohya/isoml` | isoml.com | Commercial twin activation, commerce, Reachy Mini × You |
 
-## Overview
+Shared packages: `@ohya/shared`, `@ohya/identity-schema`, `@ohya/billing`, `@ohya/ai`.
 
-ISOML is a justice data engine that helps legal professionals organize discovery, map evidence to statutory elements, research precedent, and analyze sentencing fairness — with human judgment always at the center.
-
-## Tech Stack
-
-- **Next.js 15** (App Router)
-- **TypeScript**
-- **Tailwind CSS v4**
-- **Framer Motion**
-- **shadcn/ui** (Radix primitives)
-- **Stripe Checkout**
-- **Vercel** deployment ready
-
-## Getting Started
+## Quick start
 
 ```bash
 npm install
-cp .env.example .env.local
-npm run dev
+npm run build -w @ohya/shared -w @ohya/identity-schema -w @ohya/billing -w @ohya/ai
+npm run dev:isoml   # http://localhost:3000
+npm run dev:yables  # http://localhost:3001
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+## Business rules
 
-## Environment Variables
+- Yables is free through Session 12, including profile download.
+- isoML monetizes twin activation / hosted import / hardware services.
+- Stripe webhook entitlements gate commercial import — never client redirects.
+- Explicit consent required after payment before profile transfer.
 
-| Variable | Description |
-|----------|-------------|
-| `STRIPE_SECRET_KEY` | Stripe secret key (replace placeholder) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
-| `NEXT_PUBLIC_BASE_URL` | Site URL for checkout redirects |
-| `NEXT_PUBLIC_GA_ID` | Google Analytics ID (optional) |
+## Env
 
-## Deploy to Vercel
+Copy:
+
+- `apps/isoml/.env.example`
+- `apps/yables/.env.example`
+
+## Dr. Yables
+
+Architecture: [`docs/dr-yables-architecture.md`](docs/dr-yables-architecture.md)  
+Reachy Mini adapter notes: [`docs/reachy-mini-adapter.md`](docs/reachy-mini-adapter.md)
+
+Interview route: `/interview/[1-12]`. Without `HF_TOKEN` or `OPENAI_API_KEY`, the API uses a local demonstration reply.
+
+## Tests
 
 ```bash
-vercel --prod
+npm test
 ```
 
-Set environment variables in the Vercel dashboard. The site is configured for automatic Next.js deployment.
+Paywall/transfer token tests live in `@ohya/billing`. Avatar/conversation/journey tests live in `@ohya/ai` and `@ohya/yables`.
 
-## Features
+## Deploy notes
 
-- Dark mode by default with navy/olive brand palette
-- Animated knowledge graph hero visualization
-- Interactive demo simulation
-- Justice Data Engine dashboard mockups
-- Founding Design Partner program with Stripe Checkout
-- Pitch deck preview
-- SEO metadata & Open Graph images
-- Accessibility-compliant markup
-- Responsive design
-
-## License
-
-© Oh Ya Inc. All rights reserved.
+Point Vercel (or similar) project roots at `apps/isoml` and `apps/yables` separately for yables.com / isoml.com. Configure DNS at GoDaddy to each deployment.
