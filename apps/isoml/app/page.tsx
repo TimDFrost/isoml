@@ -76,8 +76,11 @@ export default function HomePage() {
             <IsoMlWordmark size="hero" priority />
             <p className="eyebrow">Reachy Mini × You</p>
             <h1 className="font-display text-3xl leading-[1.08] text-[var(--chrome)] sm:text-4xl lg:text-5xl">
-              An AI twin. A robot personality. Unmistakably you.
+              Meet Your Other Self.
             </h1>
+            <p className="font-display text-xl text-[var(--ink-soft)] sm:text-2xl">
+              An AI twin. A robot personality. Unmistakably you.
+            </p>
             <p className="max-w-xl text-lg text-[var(--ink-soft)]">
               Bring together your stories, voice, and preferences. Teach your
               digital twin how you think and communicate, then bring it to life

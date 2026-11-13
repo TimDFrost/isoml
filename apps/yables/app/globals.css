@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+:root {
+  --ivory: #fff8ef;
+  --cream: #f6ead7;
+  --blush: #f3d5c4;
+  --burgundy: #7a2430;
+  --deep-red: #5b1a24;
+  --gold: #c9a45b;
+  --charcoal: #2a2421;
+  --charcoal-soft: #4a403a;
+  --ink-muted: #6f6258;
+  --surface: #fffdf8;
+  --line: rgba(42, 36, 33, 0.12);
+  --shadow: 0 18px 50px rgba(42, 36, 33, 0.1);
+  --radius-lg: 1.4rem;
+}
+
+@theme inline {
+  --color-ivory: var(--ivory);
+  --color-cream: var(--cream);
+  --color-burgundy: var(--burgundy);
+  --color-gold: var(--gold);
+  --color-charcoal: var(--charcoal);
+  --font-sans: var(--font-instrument);
+  --font-display: var(--font-fraunces);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--charcoal);
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(201, 164, 91, 0.2), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(122, 36, 48, 0.1), transparent 50%),
+    linear-gradient(180deg, var(--ivory) 0%, var(--cream) 100%);
+  font-family: var(--font-instrument), "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container-page {
+  width: min(1120px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.9rem 1.45rem;
+  font-weight: 650;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--burgundy);
+  color: white;
+  box-shadow: 0 12px 28px rgba(91, 26, 36, 0.24);
+}
+
+.btn-secondary {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--charcoal);
+}
+
+.panel {
+  background: color-mix(in srgb, var(--surface) 90%, white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-drift {
+  animation: drift 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-drift,
+  .btn {
+    animation: none !important;
+    transition: none !important;
+  }
+}

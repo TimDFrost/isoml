@@ -1,57 +1,45 @@
-# isoML — in search of Machine Learning
+# Oh Ya Inc. — Yables × isoML
 
-Premium website and private studio for **Reachy Mini × You** at [isoml.com](https://isoml.com).
+Monorepo for two complementary products:
 
-Customers collect stories, writing, preferences, and selected files into an evolving AI twin, review what the system learns, test it in conversation, and eventually connect an approved personality to Reachy Mini.
+| App | Domain | Role |
+| --- | --- | --- |
+| `@ohya/yables` | yables.com | Free personality discovery (12 sessions, Dr. Yables, free profile export) |
+| `@ohya/isoml` | isoml.com | Commercial twin activation, commerce, Reachy Mini × You |
 
-## Stack
-
-- Next.js 15 (App Router) + TypeScript
-- Tailwind CSS v4
-- Framer Motion (available) + CSS motion with reduced-motion support
-- Radix / shadcn-style UI primitives
+Shared packages: `@ohya/shared`, `@ohya/identity-schema`, `@ohya/billing`, `@ohya/ai`.
 
 ## Quick start
 
 ```bash
 npm install
-cp .env.example .env.local
-npm run dev
+npm run build -w @ohya/shared -w @ohya/identity-schema -w @ohya/billing -w @ohya/ai
+npm run dev:isoml   # http://localhost:3000
+npm run dev:yables  # http://localhost:3001
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+## Business rules
+
+- Yables is free through Session 12, including profile download.
+- isoML monetizes twin activation / hosted import / hardware services.
+- Stripe webhook entitlements gate commercial import — never client redirects.
+- Explicit consent required after payment before profile transfer.
+
+## Env
+
+Copy:
+
+- `apps/isoml/.env.example`
+- `apps/yables/.env.example`
+
+## Tests
 
 ```bash
-npm run lint
-npm run build
+npm test
 ```
 
-## Routes
+Paywall/transfer token tests live in `@ohya/billing`.
 
-| Route | Purpose |
-| --- | --- |
-| `/` | Homepage |
-| `/demo` | Free demo (no account) |
-| `/studio/*` | Private studio foundation |
-| `/schedule` | Booking link or honest unavailable |
-| `/early-access` | Request early access |
-| `/privacy`, `/terms` | Policy pages |
+## Deploy notes
 
-## Environment
-
-See `.env.example`. Without LLM keys, chat/demo use labeled synthetic fallbacks. Without `REACHY_MINI_ENDPOINT`, Reachy stays unavailable/disconnected — never faked as connected. Without `NEXT_PUBLIC_BOOKING_URL`, scheduling shows unavailable.
-
-## Product notes
-
-- Footer exact: `isoML, a subsidiary of Oh Ya Inc, est. 2024`
-- Hardware purchase links to Pollen Robotics; no reseller/partnership implication
-- Studio drafts persist in `localStorage` until a backend is configured
-- Demo session memory uses `sessionStorage` with clear reset
-
-## Deploy
-
-Configured for Vercel (`vercel.json`). Set env vars in the host dashboard, then deploy the production branch to isoml.com.
-
-## License
-
-© Oh Ya Inc. All rights reserved.
+Point Vercel (or similar) project roots at `apps/isoml` and `apps/yables` separately for yables.com / isoml.com. Configure DNS at GoDaddy to each deployment.
